@@ -55,6 +55,32 @@ def ensure_api_key() -> str:
 
 app = typer.Typer()
 
+
+@app.command()
+def configure():
+    """Update the stored JINA_API_KEY"""
+    config_path = get_config_path()
+    error_console.print("\n[bold yellow]Updating Jina API Key configuration[/]")
+
+    new_key = getpass.getpass("Enter new API key (input hidden): ").strip()
+
+    config = configparser.ConfigParser()
+    config["DEFAULT"] = {"JINA_API_KEY": new_key}
+    with config_path.open("w") as f:
+        config.write(f)
+    config_path.chmod(0o600)
+
+    console.print(f"\n✅ [bold green]API key updated in[/] [italic]{config_path}[/]")
+
+
+@app.command()
+def show_config():
+    """Display where the API key is stored"""
+    config_path = get_config_path()
+    console.print(f"\n🔑 Configuration file location: [italic]{config_path}[/]")
+    console.print("To update the key: [bold cyan]jinafetch configure[/]")
+
+
 # Define typer options at module level
 _DEFAULT_OUTPUT = typer.Option(None, help="Optional path to save the output Markdown file.")
 

@@ -19,6 +19,12 @@ pip install jinafetch
 
 ## Usage
 
+### Configure API Key
+```bash
+jinafetch configure  # Update stored API key
+jinafetch show-config  # See where credentials are stored
+```
+
 ### Basic fetching
 ```bash
 jinafetch fetch https://example.com
