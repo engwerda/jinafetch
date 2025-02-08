@@ -1,8 +1,13 @@
 [project]
 name = "jinafetch"
-version = "0.2.0"
+version = "0.2.1"
 description = "CLI tool to fetch and save web content as Markdown files using Jina Reader API. Handles authentication and provides rich terminal output."
 readme = "README.md"
+
+[project.urls]
+repository = "https://github.com/engwerda/jinafetch"
+homepage = "https://github.com/engwerda/jinafetch"
+
 requires-python = ">=3.12"
 classifiers = [
     "License :: OSI Approved :: MIT License",
