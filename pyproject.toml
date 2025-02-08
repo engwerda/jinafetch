@@ -1,6 +1,6 @@
 [project]
 name = "jinafetch"
-version = "0.3.0"
+version = "0.3.1"
 description = "CLI tool to fetch and save web content as Markdown files using Jina Reader API. Handles authentication and provides rich terminal output."
 readme = "README.md"
 
