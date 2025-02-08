@@ -83,6 +83,7 @@ def show_config():
 
 # Define typer options at module level
 _DEFAULT_OUTPUT = typer.Option(None, help="Optional path to save the output Markdown file.")
+_STDOUT_OPTION = typer.Option(False, "--stdout", help="Output content to stdout instead of saving to a file.")
 
 
 def sanitize_filename(url: str) -> str:
@@ -103,10 +104,14 @@ def sanitize_filename(url: str) -> str:
 def fetch(
     url: str,
     output: Optional[Path] = _DEFAULT_OUTPUT,
+    stdout: bool = _STDOUT_OPTION,
 ):
     """
-    Fetch content from the Jina Reader API and save it to a Markdown file.
+    Fetch content from the Jina Reader API and save it to a Markdown file or stdout.
+
     The API key is loaded from the environment variable JINA_API_KEY.
+
+    Use --stdout to output directly to console for piping.
     """
     api_key = ensure_api_key()
 
@@ -132,6 +137,10 @@ def fetch(
         output = output.resolve()
 
     # Save the content to the output file
+    if stdout:
+        print(content)
+        return  # Exit early if outputting to stdout
+
     try:
         with output.open("w") as f:
             f.write(content)

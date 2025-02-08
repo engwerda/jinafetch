@@ -35,6 +35,11 @@ jinafetch fetch https://example.com
 jinafetch fetch https://example.com --output my_document.md
 ```
 
+### Pipe output to other commands
+```bash
+jinafetch fetch https://example.com --stdout | pbcopy  # Example: pipe to clipboard
+```
+
 ### Environment Configuration
 
 The CLI will guide you through first-time setup:
