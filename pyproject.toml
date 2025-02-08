@@ -1,6 +1,6 @@
 [project]
 name = "jinafetch"
-version = "0.2.1"
+version = "0.3.0"
 description = "CLI tool to fetch and save web content as Markdown files using Jina Reader API. Handles authentication and provides rich terminal output."
 readme = "README.md"
 
@@ -28,6 +28,8 @@ homepage = "https://github.com/engwerda/jinafetch"
 
 [tool.ruff]
 line-length = 120
+
+[tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "C4"]
 ignore = []
 
