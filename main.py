@@ -1,4 +1,7 @@
 # main.py
+import configparser
+import contextlib
+import getpass
 import os
 import re
 from pathlib import Path
@@ -6,6 +9,7 @@ from typing import Optional
 
 import httpx
 import typer
+from appdirs import user_config_dir
 from dotenv import load_dotenv
 from rich.console import Console
 
@@ -15,6 +19,39 @@ load_dotenv()
 # Initialize Rich consoles for output formatting
 console = Console()
 error_console = Console(stderr=True)
+
+
+def get_config_path() -> Path:
+    config_dir = user_config_dir("jinafetch")  # Remove ensure_exists parameter
+    config_dir_path = Path(config_dir)
+    config_dir_path.mkdir(parents=True, exist_ok=True)  # Manual directory creation
+    return config_dir_path / "config.ini"
+
+
+def ensure_api_key() -> str:
+    """Get API key from env or config file, prompt if missing."""
+    if api_key := os.getenv("JINA_API_KEY"):
+        return api_key
+
+    config_path = get_config_path()
+    config = configparser.ConfigParser()
+
+    with contextlib.suppress(Exception):
+        config.read(config_path)
+        if config.has_option("DEFAULT", "JINA_API_KEY"):
+            return config.get("DEFAULT", "JINA_API_KEY")
+    error_console.print("\n[bold yellow]First-time setup required![/]")
+    error_console.print("1. Get your Jina API key from: [link]https://jina.ai/reader[/]")
+    api_key = getpass.getpass("2. Enter your API key (input hidden): ").strip()
+
+    config["DEFAULT"] = {"JINA_API_KEY": api_key}
+    with config_path.open("w") as f:
+        config.write(f)
+    config_path.chmod(0o600)  # Secure file permissions
+
+    error_console.print(f"\n✅ API key saved to [italic]{config_path}[/]")
+    return api_key
+
 
 app = typer.Typer()
 
@@ -45,10 +82,7 @@ def fetch(
     Fetch content from the Jina Reader API and save it to a Markdown file.
     The API key is loaded from the environment variable JINA_API_KEY.
     """
-    api_key = os.getenv("JINA_API_KEY")
-    if not api_key:
-        error_console.print("[bold red]Error:[/] JINA_API_KEY is not set in the environment or .env file.")
-        raise typer.Exit(code=1)
+    api_key = ensure_api_key()
 
     jina_url = f"https://r.jina.ai/{url}"
     headers = {"Authorization": f"Bearer {api_key}"}

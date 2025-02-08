@@ -30,9 +30,20 @@ jinafetch fetch https://example.com --output my_document.md
 ```
 
 ### Environment Configuration
-1. Create a `.env` file in your project directory:
-```env
-JINA_API_KEY=your_api_key_here
+
+The CLI will guide you through first-time setup:
+1. Run any command (e.g. `jinafetch fetch https://example.com`)
+2. You'll be prompted to enter your Jina API key
+3. Your key will be securely stored in:
+   - Linux: `~/.config/jinafetch/config.ini`
+   - macOS: `~/Library/Application Support/jinafetch/config.ini`
+   - Windows: `C:\Users\<user>\AppData\Local\jinafetch\config.ini`
+
+For CI/CD use cases, you can still set via environment variable:
+```bash
+export JINA_API_KEY=your_key_here
+# or
+JINA_API_KEY=your_key_here jinafetch fetch...
 ```
 
 ## Error Handling
