@@ -1,6 +1,9 @@
 # JinaFetch
 
-A CLI tool to fetch web content and save it as Markdown using [Jina Reader API](https://github.com/jina-ai/reader).
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
+
+A CLI tool to fetch web content and save it as Markdown using the [Jina Reader API](https://github.com/jina-ai/reader) ([get API key](https://jina.ai/api-dashboard/reader)).
 
 ## Features
 
@@ -58,6 +61,11 @@ JINA_API_KEY=your_key_here jinafetch fetch...
 ```
 
 ## Error Handling
+The CLI returns these exit codes:
+- `0`: Success
+- `1`: General error (network issues, invalid API key)
+- `2`: File system error (permission issues, path problems)
+
 Common error scenarios include:
 - 🔒 Missing API key
 - 🌐 Network errors
@@ -65,6 +73,17 @@ Common error scenarios include:
 - 🔗 Invalid URLs
 
 Errors display clear messages in red with details.
+
+## Troubleshooting
+
+🔧 **Where's my API key actually stored?**
+Run `jinafetch show-config` to see the config file location
+
+🌐 **Network errors**
+Check your internet connection and firewall settings for HTTPS access
+
+🔑 **Invalid API key errors**
+Update your key with `jinafetch configure` or via environment variable
 
 ## Requirements
 - Python 3.12+
