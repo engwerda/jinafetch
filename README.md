@@ -48,13 +48,6 @@ Errors display clear messages in red with details.
 - Python 3.12+
 - Valid Jina Reader API key
 
-## Contributing
-For development setup:
-```bash
-python -m pip install -e '.[dev]'
-ruff check .
-```
-
 ---
 
 📝 Note: Requires valid authentication via Jina Reader API
